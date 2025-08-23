@@ -1,9 +1,8 @@
 terraform {
-  required_version = "1.7.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
   }
 }
@@ -12,13 +11,12 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_vpc" "main" {
-  cidr_block       = var.cidr_block
-  instance_tenancy = "default"
+module "network" {
+  source = "./modules/network"
 
-  tags = {
-    Project      = var.project_name
-    Name         = "${var.project_name}-vpc"
-    Environement = var.environment
-  }
+  availability_zones = var.availability_zones
+  cidr_block         = var.cidr_block
+  project_name       = var.project_name
+  env                = var.env
+
 }

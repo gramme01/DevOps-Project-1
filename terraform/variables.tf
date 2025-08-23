@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "project_name" {
   type    = string
-  default = "DevOps Assessment 1"
+  default = "assessment-one"
 }
 
 variable "cidr_block" {
@@ -13,8 +13,16 @@ variable "cidr_block" {
   type        = string
 }
 
-variable "environment" {
+variable "env" {
   description = "Deployment environment (e.g., dev, staging, prod)"
   type        = string
   default     = "dev"
+}
+
+variable "workstation_ip" {
+  type = string
+}
+
+variable "availability_zones" {
+  type = list(any)
 }
