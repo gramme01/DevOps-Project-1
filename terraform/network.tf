@@ -1,6 +1,3 @@
-#tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
-#tfsec:ignore:aws-ec2-no-public-ip-subnet
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 6.0"
@@ -10,13 +7,15 @@ module "vpc" {
 
   azs             = var.availability_zones
   private_subnets = [for k, v in var.availability_zones : cidrsubnet(var.cidr_block, 8, k)]
-  public_subnets  = [for k, v in var.availability_zones : cidrsubnet(var.cidr_block, 8, k + 2)]
+  public_subnets  = [for k, v in var.availability_zones : cidrsubnet(var.cidr_block, 8, k + 4)]
 
   enable_nat_gateway = true
   single_nat_gateway = true
 
   tags = {
-    Project     = "${var.project_name}-vpc"
-    Environment = var.env
+    Project     = var.project_name
+    Environment = var.environment
   }
 }
+
+

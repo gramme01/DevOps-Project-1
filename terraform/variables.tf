@@ -13,7 +13,7 @@ variable "cidr_block" {
   type        = string
 }
 
-variable "env" {
+variable "environment" {
   description = "Deployment environment (e.g., dev, staging, prod)"
   type        = string
   default     = "dev"
