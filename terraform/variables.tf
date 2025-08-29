@@ -19,9 +19,9 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "workstation_ip" {
-  type = string
-}
+# variable "workstation_ip" {
+#   type = string
+# }
 
 variable "availability_zones" {
   type = list(any)

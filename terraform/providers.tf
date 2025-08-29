@@ -5,9 +5,14 @@ terraform {
       version = "~> 6.0"
     }
   }
-}
 
-# TODO: Add remote state
+  backend "s3" {
+    bucket = "devops-terraform-gm1"
+    key    = "assessment/1/terraform.tfstate"
+    region = "us-east-1"
+    use_lockfile = true
+  }
+}
 
 provider "aws" {
   region = var.aws_region
