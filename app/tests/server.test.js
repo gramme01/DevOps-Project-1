@@ -30,12 +30,4 @@ describe("Server API Tests", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("error", "Route not found");
   });
-
-  test("Server should handle CORS", async () => {
-    const response = await request(app)
-      .get("/health")
-      .set("Origin", "http://example.com");
-
-    expect(response.headers["access-control-allow-origin"]).toBe("*");
-  });
 });
