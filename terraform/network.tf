@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 6.0"
 
-  name = "${var.project_name}-vpc"
+  name = "${local.name}-vpc"
   cidr = var.cidr_block
 
   azs             = var.availability_zones
@@ -12,10 +12,7 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = true
 
-  tags = {
-    Project     = var.project_name
-    Environment = var.environment
-  }
+  tags = local.tags
 }
 
 
