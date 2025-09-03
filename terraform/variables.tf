@@ -50,6 +50,7 @@ variable "desired_count" {
 
 #####
 # SSM
+
 variable "app_secret_value" {
   type        = string
   description = "App Secret Key"
