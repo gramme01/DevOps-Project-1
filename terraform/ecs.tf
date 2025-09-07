@@ -45,8 +45,8 @@ module "ecs_service" {
       cpu                      = var.cpu
       memory                   = var.memory
       essential                = true
-      port_mappings            = [{ containerPort = var.container_port, hostPort = var.container_port, protocol = "tcp" }]
-      readonly_root_filesystem = false
+      portMappings            = [{ containerPort = var.container_port, hostPort = var.container_port, protocol = "tcp" }]
+      readonlyRootFilesystem = false
 
 
       environment = [
@@ -60,7 +60,7 @@ module "ecs_service" {
         }
       ]
       enable_cloudwatch_logging = true
-      log_configuration = {
+      logConfiguration = {
         logDriver = "awslogs"
         options = {
           awslogs-region        = var.aws_region

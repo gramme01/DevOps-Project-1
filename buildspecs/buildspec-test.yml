@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - cd app
+      - npm ci
+  build:
+    commands:
+      - npm test
+
+reports:
+  jest_reports:
+    files:
+      - '**/test-reports/junit.xml'
+    file-format: JUNITXML
+    base-directory: app
+artifacts:
+  files:
+    - 'app/test-reports/**/*'
+  discard-paths: yes

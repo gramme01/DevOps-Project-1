@@ -55,3 +55,18 @@ variable "app_secret_value" {
   type        = string
   description = "App Secret Key"
 }
+
+
+
+#####
+# CI/CD
+variable "github_repo" {
+  type        = string
+  description = "The GitHub repository name (e.g., user/repo)"
+}
+variable "github_branch" {
+  type        = string
+  description = "The GitHub branch to use for the pipeline"
+  default     = "main"
+
+}
