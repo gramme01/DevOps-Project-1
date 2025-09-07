@@ -9,6 +9,7 @@ phases:
       - npm ci
   build:
     commands:
+      - cd app
       - npm test
 
 reports:
