@@ -41,11 +41,11 @@ module "ecs_service" {
 
   container_definitions = {
     web = {
-      image                    = "${module.ecr.repository_url}:latest" # updated by CodePipeline deploy via imagedefinitions.json
-      cpu                      = var.cpu
-      memory                   = var.memory
-      essential                = true
-      portMappings            = [{ containerPort = var.container_port, hostPort = var.container_port, protocol = "tcp" }]
+      image                  = "${module.ecr.repository_url}:latest" # updated by CodePipeline deploy via imagedefinitions.json
+      cpu                    = var.cpu
+      memory                 = var.memory
+      essential              = true
+      portMappings           = [{ containerPort = var.container_port, hostPort = var.container_port, protocol = "tcp" }]
       readonlyRootFilesystem = false
 
 

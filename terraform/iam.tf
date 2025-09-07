@@ -92,7 +92,25 @@ resource "aws_iam_role_policy" "codebuild_build_policy" {
       { Effect = "Allow", Action = ["ecr:GetAuthorizationToken"], Resource = "*" },
       { Effect = "Allow", Action = ["ecr:BatchCheckLayerAvailability", "ecr:CompleteLayerUpload", "ecr:DescribeRepositories", "ecr:BatchGetImage", "ecr:InitiateLayerUpload", "ecr:PutImage", "ecr:UploadLayerPart"], Resource = module.ecr.repository_arn },
       { Effect = "Allow", Action = ["s3:PutObject", "s3:GetObject", "s3:GetObjectVersion", "s3:ListBucket"], Resource = [aws_s3_bucket.pipeline_artifacts.arn, "${aws_s3_bucket.pipeline_artifacts.arn}/*"] },
-      { Effect = "Allow", Action = ["sts:GetCallerIdentity"], Resource = "*" }
+      { Effect = "Allow", Action = ["sts:GetCallerIdentity"], Resource = "*" },
+      {
+        Effect = "Allow",
+        Action = [
+          "codebuild:CreateReportGroup",
+          "codebuild:CreateReport",
+          "codebuild:UpdateReport",
+          "codebuild:BatchPutTestCases",
+          "codebuild:BatchPutCodeCoverages"
+        ],
+        Resource = [
+          "arn:aws:codebuild:${var.aws_region}:${data.aws_caller_identity.current.account_id}:report-group/${aws_codebuild_project.build.name}-*"
+        ]
+      },
+      {
+        Effect   = "Allow",
+        Action   = ["codebuild:ListReportGroups"],
+        Resource = "*"
+      }
     ]
   })
 }
@@ -114,7 +132,25 @@ resource "aws_iam_role_policy" "codebuild_test_policy" {
     Version = "2012-10-17",
     Statement = [
       { Effect = "Allow", Action = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"], Resource = "*" },
-      { Effect = "Allow", Action = ["s3:PutObject", "s3:GetObject", "s3:GetObjectVersion", "s3:ListBucket"], Resource = [aws_s3_bucket.pipeline_artifacts.arn, "${aws_s3_bucket.pipeline_artifacts.arn}/*"] }
+      { Effect = "Allow", Action = ["s3:PutObject", "s3:GetObject", "s3:GetObjectVersion", "s3:ListBucket"], Resource = [aws_s3_bucket.pipeline_artifacts.arn, "${aws_s3_bucket.pipeline_artifacts.arn}/*"] },
+      {
+        Effect = "Allow",
+        Action = [
+          "codebuild:CreateReportGroup",
+          "codebuild:CreateReport",
+          "codebuild:UpdateReport",
+          "codebuild:BatchPutTestCases",
+          "codebuild:BatchPutCodeCoverages"
+        ],
+        Resource = [
+          "arn:aws:codebuild:${var.aws_region}:${data.aws_caller_identity.current.account_id}:report-group/${aws_codebuild_project.test.name}-*"
+        ]
+      },
+      {
+        Effect   = "Allow",
+        Action   = ["codebuild:ListReportGroups"],
+        Resource = "*"
+      }
     ]
   })
 }
