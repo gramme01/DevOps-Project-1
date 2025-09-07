@@ -1,33 +1,31 @@
-# DevOps Assessment - Node.js Application
+# DevOps Assessment: Terraform + CodePipeline + ECS (Node on Fargate)
 
-A Node.js Express application for DevOps assessment with CI/CD pipeline.
 
-## Features
+This repository provisions a complete CI/CD pipeline:
 
-- Express.js web server
-- Health check endpoint (/health)
-- API version endpoint (/api/version)
-- Test suite with Jest
-- ESLint for code quality
-- Docker containerization
-- AWS ECS deployment
-- CI/CD pipeline with CodePipeline
 
-## Local Development
+- **Terraform** creates: VPC, public/private subnets, **internet-facing ALB**, ECS cluster & Fargate service, Security Groups, ECR, SSM Parameter(s), and a 3-stage **CodePipeline** (Source → Build → Test → Deploy) using CodeBuild and ECS deploy action.
+- **Node app** listens on **port 3000** with `/` and `/health`.
+- **CodeBuild** builds & pushes the Docker image to ECR and produces `imagedefinitions.json` for ECS deployment.
 
-```bash
-# Install dependencies
-npm install
 
-# Start development server
-npm run dev
+## Prerequisites
+- Terraform >= 1.6, AWS CLI configured.
+- Create/authorize **CodeStar Connection** during first `terraform apply` (a console one-time click is required to connect GitHub).
 
-# Run tests
-npm test
 
-# Run tests with watch mode
-npm run test:watch
+## Quick Start
 
-# Lint code
-npm run lint
-```
+
+1. **Clone repo** and set variables (either `terraform.tfvars` or CLI flags). Below is an example.
+
+
+```hcl
+aws_region          = "us-east-1"
+availability_zones  = ["us-east-1a", "us-east-1b"]
+cidr_block          = "10.0.0.0/16"
+project_name        = "project1"
+environment         = "dev" # or "prod"
+github_repo         = "YOUR_GITHUB_OWNER/YOUR_REPO"
+github_branch       = "main" # or "CI branch"
+app_secret_value    = "change-me"

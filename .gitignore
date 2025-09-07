@@ -1,3 +1,19 @@
+#General
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.temp
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+.idea/
+.vscode/
+
+
+
 # Terraform specific
 **/terraform/.terraform/
 **/terraform/*.tfstate
@@ -22,7 +38,7 @@
 **/app/.npm
 **/app/.yarn/
 **/app/.yarnrc
-**/app/package-lock.json
+# **/app/package-lock.json
 **/app/yarn.lock
 **/app/coverage/
 **/app/.nyc_output/
@@ -33,4 +49,4 @@
 # Docker specific
 **/app/Dockerfile.dev
 **/app/docker-compose.override.yml
-**/app/.dockerignore
+# **/app/.dockerignore
