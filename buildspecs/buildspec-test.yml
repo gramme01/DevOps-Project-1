@@ -5,11 +5,10 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      # - cd app
+      - cd app
       - npm ci
   build:
     commands:
-      # - cd app
       - npm test
 
 reports:
