@@ -1,0 +1,9 @@
+
+node_modules
+npm-debug.log
+yarn.lock
+
+# Tests and coverage reports
+__tests__/
+coverage/
+test-reports/

@@ -41,6 +41,7 @@ Thumbs.db
 # **/app/package-lock.json
 **/app/yarn.lock
 **/app/coverage/
+**/app/test-reports/
 **/app/.nyc_output/
 **/app/.eslintcache
 **/app/dist/
