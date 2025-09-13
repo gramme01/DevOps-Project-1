@@ -181,11 +181,27 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
   role = aws_iam_role.codepipeline_role.id
   policy = jsonencode({
     Version = "2012-10-17",
+    # Statement = [
+    #   { Effect = "Allow", Action = ["s3:*"], Resource = [aws_s3_bucket.pipeline_artifacts.arn, "${aws_s3_bucket.pipeline_artifacts.arn}/*"] },
+    #   { Effect = "Allow", Action = ["codebuild:BatchGetBuilds", "codebuild:StartBuild"], Resource = [aws_codebuild_project.build.arn, aws_codebuild_project.test.arn] },
+    #   { Effect = "Allow", Action = ["codestar-connections:UseConnection"], Resource = aws_codestarconnections_connection.github.arn },
+    #   { Effect = "Allow", Action = ["ecs:DescribeServices", "ecs:DescribeTaskDefinition", "ecs:RegisterTaskDefinition", "ecs:UpdateService", "ecs:DescribeClusters", "ecs:ListTaskDefinitions"], Resource = "*" }, 
+    #   { Effect: "Allow", Action: "iam:PassRole", Resource: "*", Condition: { StringEquals: {"iam:PassedToService": "ecs-tasks.amazonaws.com" }}}
+    # ]
     Statement = [
-      { Effect = "Allow", Action = ["s3:*"], Resource = [aws_s3_bucket.pipeline_artifacts.arn, "${aws_s3_bucket.pipeline_artifacts.arn}/*"] },
-      { Effect = "Allow", Action = ["codebuild:BatchGetBuilds", "codebuild:StartBuild"], Resource = [aws_codebuild_project.build.arn, aws_codebuild_project.test.arn] },
-      { Effect = "Allow", Action = ["codestar-connections:UseConnection"], Resource = aws_codestarconnections_connection.github.arn },
-      { Effect = "Allow", Action = ["ecs:DescribeServices", "ecs:DescribeTaskDefinition", "ecs:RegisterTaskDefinition", "ecs:UpdateService"], Resource = "*" }
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:*",
+          "codebuild:*",
+          "codestar-connections:UseConnection",
+          "codedeploy:*",
+          "ecs:*",
+          "ecr:*",
+          "iam:PassRole"
+        ]
+        Resource = "*"
+      }
     ]
   })
 }

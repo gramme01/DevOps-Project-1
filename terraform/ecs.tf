@@ -29,6 +29,13 @@ module "ecs_service" {
   cpu    = var.cpu
   memory = var.memory
 
+  create_task_exec_iam_role = false
+  create_tasks_iam_role     = false
+
+
+  task_exec_iam_role_arn = aws_iam_role.ecs_task_execution.arn
+  tasks_iam_role_arn      = aws_iam_role.ecs_task_role.arn
+
 
   # launch_type = "FARGATE"
   # assign_public_ip       = false

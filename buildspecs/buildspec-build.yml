@@ -16,10 +16,12 @@ phases:
     commands:
       - echo "Build Docker image..."
       - docker build -t $IMAGE_REPO_URI:$IMAGE_TAG ./app
+      - docker tag  $IMAGE_REPO_URI:$IMAGE_TAG $IMAGE_REPO_URI:latest
   post_build:
     commands:
       - echo "Push Docker image..."
       - docker push $IMAGE_REPO_URI:$IMAGE_TAG
+      - docker push $IMAGE_REPO_URI:latest
       - printf '[{"name":"%s","imageUri":"%s"}]' "$CONTAINER_NAME" "$IMAGE_REPO_URI:$IMAGE_TAG" > imagedefinitions.json
 artifacts:
   files:  
