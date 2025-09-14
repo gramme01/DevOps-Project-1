@@ -10,7 +10,7 @@ module "vpc" {
   public_subnets  = [for k, v in var.availability_zones : cidrsubnet(var.cidr_block, 8, k + 4)]
 
   enable_nat_gateway = true
-  single_nat_gateway = true
+  # single_nat_gateway = true # cost saving for dev/test
 
   tags = local.tags
 }

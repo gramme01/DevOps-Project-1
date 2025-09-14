@@ -1,3 +1,12 @@
+locals {
+  name = "${var.project_name}-${var.environment}"
+  tags = {
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+
 variable "aws_region" {
   description = "The AWS region where resources will be created"
   type        = string
