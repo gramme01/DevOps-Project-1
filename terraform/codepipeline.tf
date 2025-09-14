@@ -111,6 +111,9 @@ resource "aws_codepipeline" "this" {
   name     = "${local.name}-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
 
+  pipeline_type  = "V2"
+  execution_mode = "QUEUED"
+
 
   artifact_store {
     location = aws_s3_bucket.pipeline_artifacts.bucket
@@ -126,6 +129,7 @@ resource "aws_codepipeline" "this" {
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
       version          = "1"
+      namespace        = "SourceVars"
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.github.arn
@@ -149,6 +153,10 @@ resource "aws_codepipeline" "this" {
       version          = "1"
       configuration = {
         ProjectName = aws_codebuild_project.build.name
+        EnvironmentVariables = jsonencode([
+          { name = "SOURCE_COMMIT_ID", type = "PLAINTEXT", value = "#{SourceVars.CommitId}" },
+          { name = "SOURCE_BRANCH", type = "PLAINTEXT", value = "#{SourceVars.BranchName}" }
+        ])
       }
     }
   }
@@ -166,6 +174,10 @@ resource "aws_codepipeline" "this" {
       version          = "1"
       configuration = {
         ProjectName = aws_codebuild_project.test.name
+        EnvironmentVariables = jsonencode([
+          { name = "SOURCE_COMMIT_ID", type = "PLAINTEXT", value = "#{SourceVars.CommitId}" },
+          { name = "SOURCE_BRANCH", type = "PLAINTEXT", value = "#{SourceVars.BranchName}" }
+        ])
       }
     }
   }
