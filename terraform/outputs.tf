@@ -12,3 +12,7 @@ output "cluster_name" {
 output "service_name" {
   value = module.ecs_service.name
 }
+
+output "codepipeline_triggers" {
+  value = aws_codepipeline.this.trigger_all
+}

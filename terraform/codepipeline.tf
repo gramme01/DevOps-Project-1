@@ -120,6 +120,23 @@ resource "aws_codepipeline" "this" {
     type     = "S3"
   }
 
+  trigger {
+    provider_type = "CodeStarSourceConnection"
+    git_configuration {
+      source_action_name = "GitHub_Source"
+      push {
+        branches {
+          includes = [var.github_branch]
+        }
+      }
+      pull_request {
+        events = ["CLOSED"]
+        branches {
+          includes = [var.github_branch]
+        }
+      }
+    }
+  }
 
   stage {
     name = "Source"
@@ -135,7 +152,7 @@ resource "aws_codepipeline" "this" {
         ConnectionArn    = aws_codestarconnections_connection.github.arn
         FullRepositoryId = var.github_repo
         BranchName       = var.github_branch
-        DetectChanges    = true
+        # DetectChanges    = true
       }
     }
   }
